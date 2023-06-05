@@ -1,0 +1,8 @@
+.navbar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    list-style: none;
+  
+  }
+  
