@@ -1,13 +1,50 @@
-.header{
-  background-image: linear-gradient(to right, rgb(255, 255, 255), rgba(0, 0, 0, 0)), url("../../image/Background_1.jpg");
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap');
+
+.header {
+  background-image: linear-gradient(to right, rgb(245,246,246) 30%,
+  rgb(245,246,246) 40%, rgba(0, 0, 0, 0) 100%), 
+   url("../../image/Background_Header.jpg");
   background-repeat: no-repeat;
-  background-size: 100%, 100%;
-  background-position: center;
+  background-size: cover;
+  background-position: top;
+  padding: 20px;
 }
+
+
 .navbar-nav {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    list-style: none;
-  }
-  
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  list-style: none;
+  width: 50%;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 4px solid hsla(180, 69%, 69%, 0.507);
+}
+
+.navbar-nav li {
+  margin: 0 10px;
+}
+
+.navbar-nav li a {
+  text-decoration: none;
+  color: #333;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 20px;
+  border-radius: 5px;
+  /* Add border radius */
+  padding: 8px;
+
+}
+
+.navbar-nav li a:hover {
+  color: #555;
+  font-weight: bold;
+  background-color: lightcyan;
+}
+
+.navbar-nav h1 {
+  margin-left: 20px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 28px;
+}

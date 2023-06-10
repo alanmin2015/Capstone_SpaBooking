@@ -7,6 +7,7 @@ import './App.css';
 import Header from './components/pages/Header';
 import Weather from './components/pages/Weather';
 import Admin from './components/pages/Admin';
+import Footer from './components/pages/Footer';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
         </Routes>
       </div>
+      <Footer/>
     </Router>
   );
 }
