@@ -1,9 +1,12 @@
 import React from "react";
 import "./Home.css";
-
+import Login from "./Login";
 const Home = () => {
+
+  
   return (
     <div>
+   <Login/>
       <div className="home-container1">
         <div className="home1">
           <h1 className="home-title">Welcome to Vetta Nordic Spa</h1>
