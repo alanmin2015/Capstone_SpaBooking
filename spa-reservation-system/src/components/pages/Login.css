@@ -1,0 +1,49 @@
+.login-container {
+    width: 300px;
+    margin: 7% auto;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .login-form input {
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+  
+  .login-form button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .login-form button:hover {
+    background-color: #45a049;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+
+ .toggle-form {
+    width: 100%;
+    margin-top: 5%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+ .toggle-form:hover {
+    background-color: #45a049;
+  }
+  
+  .confirmPassword{
+    width: 96%;
+  }

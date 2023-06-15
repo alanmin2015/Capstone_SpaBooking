@@ -1,45 +1,19 @@
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
-// import { Alert } from 'react-bootstrap'; // Or any alert library you are using
-
-// function Login() {
-//   const [username, setUsername] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [error, setError] = useState('');
-//   const navigate = useNavigate();
-
-//   const handleLogin = async (e) => {
-//     e.preventDefault();
-// console.log('123',123)
-//     try {
-//       const response = await axios.post('http://wenbomin.ca:5000/login', { username, password });
-//       localStorage.setItem('token', response.data.token);
-//       navigate('/home');
-//     } catch (error) {
-//       setError(error.response.data.message);
-//       console.log(error);
-//     }
-//   };
-
-//   return (
-//     <div className="App">
-//       {error && <Alert variant="danger">{error}</Alert>}
-//       <form onSubmit={handleLogin}>
-//         <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-//         <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-//         <button type="submit">Login</button>
-//       </form>
-//     </div>
-//   );
-// }
-
-// export default Login;
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../../AuthContext';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 const Login = () => {
+  const { setIsAuthenticated } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isCreateAccount, setIsCreateAccount] = useState(false);
+  const navigate = useNavigate();
 
   // Fetch users data from API
   useEffect(() => {
@@ -55,25 +29,69 @@ const Login = () => {
     fetchData();
   }, []);
 
+  // Login handler
+  const handleLogin = () => {
+    const user = users.find((user) => user.email === email && user.password === password);
+
+    if (user) {
+      toast.success('Login successful!');
+      setIsAuthenticated(true);
+      navigate('/Home');
+    } else {
+      toast.error('Invalid email or password');
+    }
+  };
+
+  // Create account handler
+  const handleCreateAccount = async () => {
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
+    try {
+      await axios.post('http://127.0.0.1:5000/api/users', { email, password });
+      setIsCreateAccount(false);
+      window.location.reload();  // Add this line to refresh the page
+    } catch (error) {
+      console.error('Error creating account', error);
+      toast.error('Error creating account');
+    }
+  };
+
+  // Toggle form view handler
+  const handleToggleForm = () => {
+    setIsCreateAccount(!isCreateAccount);
+  };
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>email</th>
-          {/* Add other column headers as per your 'users' table schema */}
-        </tr>
-      </thead>
-      <tbody>
-        {users.map(user => (
-          <tr key={user.id}>
-            <td>{user.id}</td>
-            <td>{user.email}</td>
-            {/* Render other columns data as per your 'users' table schema */}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="login-container">
+      <h2>{isCreateAccount ? 'Create Account' : 'Login'}</h2>
+      <form className="login-form">
+        <label htmlFor="email">Email</label>
+        <input id="email" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        
+        <label htmlFor="password">Password</label>
+        <input id="password" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        
+        {isCreateAccount && (
+          <div>
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input  className='confirmPassword' id="confirmPassword" type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+          </div>
+        )}
+        
+        <button type="button" onClick={isCreateAccount ? handleCreateAccount : handleLogin}>
+          {isCreateAccount ? 'Create Account' : 'Login'}
+        </button>
+      </form>
+
+      <button className="toggle-form" onClick={handleToggleForm}>
+        {isCreateAccount ? 'Back to login' : 'Create new account'}
+      </button>
+
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={true} />
+    </div>
   );
 };
 

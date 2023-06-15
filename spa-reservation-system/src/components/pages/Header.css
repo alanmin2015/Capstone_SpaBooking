@@ -37,6 +37,20 @@
 
 }
 
+
+.logout-btn {
+  background: none;
+  border: none;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+  outline: inherit;
+}
+.logout-btn:hover {
+  color: #555;
+  font-weight: bold;
+  background-color: lightcyan;
+} 
 .navbar-nav li a:hover {
   color: #555;
   font-weight: bold;
@@ -48,3 +62,4 @@
   font-family: 'Ubuntu', sans-serif;
   font-size: 28px;
 }
+

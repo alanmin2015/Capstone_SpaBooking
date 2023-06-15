@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useContext } from 'react';
 import './Header.css';
 import logoImage from '../../image/Logo-Title.jpg';
+import { AuthContext } from '../../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    navigate('/');
+  };
   return (
     <nav className="header">
       <div>
         <img src={logoImage} alt="Logo" />
       </div>
+      {isAuthenticated && (
       <div className="navBar">
         <ul className="navbar-nav">
           <li className="nav-item">
@@ -35,8 +45,14 @@ const Header = () => {
               Account
             </a>
           </li>
+          <li className="nav-item">
+            <button className="nav-link logout-btn"  onClick={handleLogout}>
+              Logout
+            </button>
+          </li>
         </ul>
       </div>
+       )}
     </nav>
   );
 };
