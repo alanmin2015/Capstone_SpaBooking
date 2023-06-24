@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import bcrypt from 'bcryptjs';
 import './Account.css';
 import { AuthContext } from '../../AuthContext';
 import ConfirmationModal from './ConfirmationModel';
@@ -31,13 +30,13 @@ const Account = () => {
         let allUser;
         
         if (isAdmin) {
-          userResponse = await axios.get(`http://127.0.0.1:5000/api/users/${userId}`);
-          bookingsResponse = await axios.get(`http://127.0.0.1:5000/api/booking`);
-          allUser = await axios.get(`http://127.0.0.1:5000/api/users`);
+          userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`);
+          bookingsResponse = await axios.get(`http://localhost:5000/api/booking`);
+          allUser = await axios.get(`http://localhost:5000/api/users`);
           setUsers(allUser.data);
         } else {
-          userResponse = await axios.get(`http://127.0.0.1:5000/api/users/${userId}`);
-          bookingsResponse = await axios.get(`http://127.0.0.1:5000/api/booking/${userId}`);
+          userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`);
+          bookingsResponse = await axios.get(`http://localhost:5000/api/booking/${userId}`);
         }
   
         setUser(userResponse.data);
@@ -55,9 +54,9 @@ const Account = () => {
 
   const handleUpdate = async () => {
     try {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      await axios.put(`http://127.0.0.1:5000/api/users/${userId}`, {
-        password: hashedPassword,
+      
+      await axios.put(`http://localhost:5000/api/users/${userId}`, {
+        password: password,
         first: firstName,
         last: lastName,
       });
@@ -75,7 +74,7 @@ const Account = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://127.0.0.1:5000/api/users/${userId}`);
+      await axios.delete(`http://localhost:5000/api/users/${userId}`);
       toast.success('Account deleted successfully');
       setTimeout(() => {
         window.location.href = '/'; // Redirect to login page
@@ -99,12 +98,13 @@ const Account = () => {
 
   const confirmDeleteBooking = async () => {
     try {
-      await axios.delete(`http://127.0.0.1:5000/api/booking/${bookingIdToDelete}`);
-      toast.success('Booking deleted successfully');
+      await axios.delete(`http://localhost:5000/api/booking/${bookingIdToDelete}`);
+      
       setBookingIdToDelete(null);
       // Fetch updated bookings after deletion
-      const bookingsResponse = await axios.get(`http://127.0.0.1:5000/api/booking/${userId}`);
+      const bookingsResponse = await axios.get(`http://localhost:5000/api/booking/${userId}`);
       setBookings(bookingsResponse.data);
+      toast.success('Booking deleted successfully');
     } catch (error) {
       console.error('Error deleting booking: ', error);
       toast.error('Error deleting booking');
@@ -120,7 +120,7 @@ const Account = () => {
 
   const handleUpdateBooking = async () => {
     try {
-      await axios.put(`http://127.0.0.1:5000/api/booking/${bookingIdToUpdate}`, {
+      await axios.put(`http://localhost:5000/api/booking/${bookingIdToUpdate}`, {
         date: updatedDate,
         people: updatedPeople,
       });
@@ -132,9 +132,9 @@ const Account = () => {
       
       let bookingsResponse;
       if (isAdmin) {
-        bookingsResponse = await axios.get(`http://127.0.0.1:5000/api/booking`);
+        bookingsResponse = await axios.get(`http://localhost:5000/api/booking`);
       } else {
-        bookingsResponse = await axios.get(`http://127.0.0.1:5000/api/booking/${userId}`);
+        bookingsResponse = await axios.get(`http://localhost:5000/api/booking/${userId}`);
       }
       
       setBookings(bookingsResponse.data);
@@ -251,7 +251,7 @@ const Account = () => {
           />
         )}
       </div>
-      <ToastContainer />
+     
     </div>
     </div>
   );

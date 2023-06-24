@@ -19,7 +19,7 @@ const Home = () => {
             into a realm of ultimate relaxation.
           </p>
           <button className="bookingButton">
-            <a href="/bookings" className="buttonLink">
+            <a href="/bookings/${user.id}" className="buttonLink">
               Book Now
             </a>
           </button>
@@ -38,7 +38,7 @@ const Home = () => {
             desires.
           </p>
           <button className="bookingButton">
-            <a href="/bookings" className="buttonLink">
+            <a href="/bookings/${user.id}" className="buttonLink">
               Book Now
             </a>
           </button>
@@ -56,7 +56,7 @@ const Home = () => {
             and enhance your wellness journey.
           </p>
           <button className="bookingButton">
-            <a href="/bookings" className="buttonLink">
+            <a href="/bookings/${user.id}" className="buttonLink">
               Book Now
             </a>
           </button>

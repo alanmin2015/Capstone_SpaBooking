@@ -5,7 +5,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-import bcrypt from 'bcryptjs'; // Import bcrypt library
 
 const Login = () => {
   const { setIsAuthenticated, setUserId, setIsAdmin } = useContext(AuthContext); 
@@ -20,7 +19,7 @@ const Login = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:5000/api/users');
+        const res = await axios.get('http://localhost:5000/api/users');
         setUsers(res.data);
       } catch (error) {
         console.error('Error fetching data', error);
@@ -32,7 +31,7 @@ const Login = () => {
 
   // Login handler
   const handleLogin = () => {
-    const user = users.find((user) => user.email === email && bcrypt.compareSync(password, user.password));
+    const user = users.find((user) => user.email === email && user.password === password);
     if (user) {
       toast.success('Login successful!');
       setIsAuthenticated(true);
@@ -52,8 +51,7 @@ const Login = () => {
     }
 
     try {
-      const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password
-      await axios.post('http://127.0.0.1:5000/api/users', { email, password: hashedPassword }); // Send hashed password
+      await axios.post('http://localhost:5000/api/users', { email, password }); // Send plain password
       setIsCreateAccount(false);
       window.location.reload();  // Add this line to refresh the page
     } catch (error) {
