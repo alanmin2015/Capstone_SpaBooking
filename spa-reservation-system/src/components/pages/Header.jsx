@@ -3,15 +3,17 @@ import './Header.css';
 import logoImage from '../../image/Logo-Title.jpg';
 import { AuthContext } from '../../AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const Header = () => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated, userId } = useContext(AuthContext); // Get userId from AuthContext
   const navigate = useNavigate();
-
+  
   const handleLogout = () => {
     setIsAuthenticated(false);
     navigate('/');
   };
+  
   return (
     <nav className="header">
       <div>
@@ -21,29 +23,29 @@ const Header = () => {
       <div className="navBar">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link" href="/">
+            <Link className="nav-link" to={`/Home/${userId}`}> {/* Use Link and add userId */}
               Home
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="Bookings">
+            <Link className="nav-link" to={`/Bookings/${userId}`}> {/* Use Link and add userId */}
               Bookings
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="Weather">
+            <Link className="nav-link" to={`/Weather/${userId}`}> {/* Use Link and add userId */}
               Weather
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="Admin">
+            <Link className="nav-link" to={`/Admin/${userId}`}> {/* Use Link and add userId */}
               Admin
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="Account">
+            <Link className="nav-link" to={`/Account/${userId}`}> {/* Use Link and add userId */}
               Account
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
             <button className="nav-link logout-btn"  onClick={handleLogout}>

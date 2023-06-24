@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './components/pages/Home';
 import { AuthContext } from './AuthContext';
@@ -11,28 +11,38 @@ import Footer from './components/pages/Footer';
 import Account from './components/pages/Account';
 import Login from './components/pages/Login';
 
-
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem('isAuthenticated') === 'true'
+  );
+  const [userId, setUserId] = useState(
+    localStorage.getItem('userId') || null
+  ); // Create new state for userId
+
+  useEffect(() => {
+    localStorage.setItem('isAuthenticated', isAuthenticated);
+    localStorage.setItem('userId', userId); // Store userId in localStorage
+  }, [isAuthenticated, userId]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, userId, setUserId }}> 
       <Router>
-        <Header/>
+        <Header />
         <div className="App">
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/Home" element={<Home />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/bookings" element={<Bookings />} />
-            <Route path="/weather" element={<Weather />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/home/:id" element={<Home />} />  // Add :id to route
+            <Route path="/account/:id" element={<Account />} />  // Add :id to route
+            <Route path="/bookings/:id" element={<Bookings />} />  // Add :id to route
+            <Route path="/weather/:id" element={<Weather />} />  // Add :id to route
+            <Route path="/admin/:id" element={<Admin />} />  // Add :id to route
           </Routes>
         </div>
-        <Footer/>
+        <Footer />
       </Router>
     </AuthContext.Provider>
   );
 }
+
 
 export default App;

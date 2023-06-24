@@ -5,9 +5,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import bcrypt from 'bcryptjs'; // Import bcrypt library
 
 const Login = () => {
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated,setUserId  } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,12 +32,13 @@ const Login = () => {
 
   // Login handler
   const handleLogin = () => {
-    const user = users.find((user) => user.email === email && user.password === password);
+    const user = users.find((user) => user.email === email && bcrypt.compareSync(password, user.password));
 
     if (user) {
       toast.success('Login successful!');
       setIsAuthenticated(true);
-      navigate('/Home');
+      setUserId(user.id);  // Set user id in context
+      navigate(`/Home/${user.id}`);  // Navigate to the home page with user id
     } else {
       toast.error('Invalid email or password');
     }
@@ -50,7 +52,8 @@ const Login = () => {
     }
 
     try {
-      await axios.post('http://127.0.0.1:5000/api/users', { email, password });
+      const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password
+      await axios.post('http://127.0.0.1:5000/api/users', { email, password: hashedPassword }); // Send hashed password
       setIsCreateAccount(false);
       window.location.reload();  // Add this line to refresh the page
     } catch (error) {
@@ -77,7 +80,7 @@ const Login = () => {
         {isCreateAccount && (
           <div>
             <label htmlFor="confirmPassword">Confirm Password</label>
-            <input  className='confirmPassword' id="confirmPassword" type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+            <input className='confirmPassword' id="confirmPassword" type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
           </div>
         )}
         
