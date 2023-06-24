@@ -38,11 +38,6 @@ const Header = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to={`/Admin/${userId}`}> {/* Use Link and add userId */}
-              Admin
-            </Link>
-          </li>
-          <li className="nav-item">
             <Link className="nav-link" to={`/Account/${userId}`}> {/* Use Link and add userId */}
               Account
             </Link>

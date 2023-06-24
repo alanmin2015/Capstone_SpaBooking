@@ -6,10 +6,10 @@ import Bookings from './components/pages/Bookings';
 import './App.css';
 import Header from './components/pages/Header';
 import Weather from './components/pages/Weather';
-import Admin from './components/pages/Admin';
 import Footer from './components/pages/Footer';
 import Account from './components/pages/Account';
 import Login from './components/pages/Login';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -18,14 +18,17 @@ function App() {
   const [userId, setUserId] = useState(
     localStorage.getItem('userId') || null
   ); // Create new state for userId
-
+  const [isAdmin, setIsAdmin] = useState(
+    localStorage.getItem('isAdmin') === 'true'
+  );
   useEffect(() => {
     localStorage.setItem('isAuthenticated', isAuthenticated);
     localStorage.setItem('userId', userId); // Store userId in localStorage
-  }, [isAuthenticated, userId]);
+    localStorage.setItem('isAdmin', isAdmin); // Store isAdmin in localStorage
+  }, [isAuthenticated, userId, isAdmin]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, userId, setUserId }}> 
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, userId, setUserId, isAdmin, setIsAdmin }}>
       <Router>
         <Header />
         <div className="App">
@@ -35,10 +38,10 @@ function App() {
             <Route path="/account/:id" element={<Account />} />  // Add :id to route
             <Route path="/bookings/:id" element={<Bookings />} />  // Add :id to route
             <Route path="/weather/:id" element={<Weather />} />  // Add :id to route
-            <Route path="/admin/:id" element={<Admin />} />  // Add :id to route
           </Routes>
         </div>
         <Footer />
+        <ToastContainer />
       </Router>
     </AuthContext.Provider>
   );

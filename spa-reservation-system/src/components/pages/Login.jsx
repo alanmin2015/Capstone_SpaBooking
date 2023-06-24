@@ -8,7 +8,7 @@ import './Login.css';
 import bcrypt from 'bcryptjs'; // Import bcrypt library
 
 const Login = () => {
-  const { setIsAuthenticated,setUserId  } = useContext(AuthContext);
+  const { setIsAuthenticated, setUserId, setIsAdmin } = useContext(AuthContext); 
   const [users, setUsers] = useState([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,11 +33,11 @@ const Login = () => {
   // Login handler
   const handleLogin = () => {
     const user = users.find((user) => user.email === email && bcrypt.compareSync(password, user.password));
-
     if (user) {
       toast.success('Login successful!');
       setIsAuthenticated(true);
       setUserId(user.id);  // Set user id in context
+      setIsAdmin(user.admin);
       navigate(`/Home/${user.id}`);  // Navigate to the home page with user id
     } else {
       toast.error('Invalid email or password');
