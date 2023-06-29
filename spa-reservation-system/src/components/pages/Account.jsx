@@ -30,13 +30,13 @@ const Account = () => {
         let allUser;
         
         if (isAdmin) {
-          userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`);
-          bookingsResponse = await axios.get(`http://localhost:5000/api/booking`);
-          allUser = await axios.get(`http://localhost:5000/api/users`);
+          userResponse = await axios.get(`https://admin.capstone.wenbomin.ca/api/users/${userId}`);
+          bookingsResponse = await axios.get(`https://admin.capstone.wenbomin.ca/api/booking`);
+          allUser = await axios.get(`https://admin.capstone.wenbomin.ca/api/users`);
           setUsers(allUser.data);
         } else {
-          userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`);
-          bookingsResponse = await axios.get(`http://localhost:5000/api/booking/${userId}`);
+          userResponse = await axios.get(`https://admin.capstone.wenbomin.ca/api/users/${userId}`);
+          bookingsResponse = await axios.get(`https://admin.capstone.wenbomin.ca/api/booking/${userId}`);
         }
   
         setUser(userResponse.data);
@@ -55,7 +55,7 @@ const Account = () => {
   const handleUpdate = async () => {
     try {
       
-      await axios.put(`http://localhost:5000/api/users/${userId}`, {
+      await axios.put(`https://admin.capstone.wenbomin.ca/api/users/${userId}`, {
         password: password,
         first: firstName,
         last: lastName,
@@ -74,7 +74,7 @@ const Account = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/users/${userId}`);
+      await axios.delete(`https://admin.capstone.wenbomin.ca/api/users/${userId}`);
       toast.success('Account deleted successfully');
       setTimeout(() => {
         window.location.href = '/'; // Redirect to login page
@@ -98,11 +98,11 @@ const Account = () => {
 
   const confirmDeleteBooking = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/booking/${bookingIdToDelete}`);
+      await axios.delete(`https://admin.capstone.wenbomin.ca/api/booking/${bookingIdToDelete}`);
       
       setBookingIdToDelete(null);
       // Fetch updated bookings after deletion
-      const bookingsResponse = await axios.get(`http://localhost:5000/api/booking/${userId}`);
+      const bookingsResponse = await axios.get(`https://admin.capstone.wenbomin.ca/api/booking/${userId}`);
       setBookings(bookingsResponse.data);
       toast.success('Booking deleted successfully');
     } catch (error) {
@@ -120,7 +120,7 @@ const Account = () => {
 
   const handleUpdateBooking = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/booking/${bookingIdToUpdate}`, {
+      await axios.put(`https://admin.capstone.wenbomin.ca/api/booking/${bookingIdToUpdate}`, {
         date: updatedDate,
         people: updatedPeople,
       });
@@ -132,9 +132,9 @@ const Account = () => {
       
       let bookingsResponse;
       if (isAdmin) {
-        bookingsResponse = await axios.get(`http://localhost:5000/api/booking`);
+        bookingsResponse = await axios.get(`https://admin.capstone.wenbomin.ca/api/booking`);
       } else {
-        bookingsResponse = await axios.get(`http://localhost:5000/api/booking/${userId}`);
+        bookingsResponse = await axios.get(`https://admin.capstone.wenbomin.ca/api/booking/${userId}`);
       }
       
       setBookings(bookingsResponse.data);

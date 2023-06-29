@@ -19,7 +19,7 @@ const Login = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/users');
+        const res = await axios.get('https://admin.capstone.wenbomin.ca/api/users');
         setUsers(res.data);
       } catch (error) {
         console.error('Error fetching data', error);
@@ -51,7 +51,7 @@ const Login = () => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/users', { email, password }); // Send plain password
+      await axios.post('https://admin.capstone.wenbomin.ca/api/users', { email, password }); // Send plain password
       setIsCreateAccount(false);
       window.location.reload();  // Add this line to refresh the page
     } catch (error) {

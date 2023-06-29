@@ -14,7 +14,7 @@ const useBookingConfirmation = (userId, date, people) => {
   const handleConfirmation = async (confirmed) => {
     if (confirmed) {
       try {
-        await axios.post('http://localhost:5000/api/booking', {
+        await axios.post('https://admin.capstone.wenbomin.ca/api/booking', {
           date,
           people,
           userID: userId,
